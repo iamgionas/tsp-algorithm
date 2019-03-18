@@ -34,7 +34,7 @@ public class City {
     }
 
     public int getDistance(City c) {
-        return (int) Math.sqrt(Math.pow(this.x - c.getX(), 2) + Math.pow(this.y - c.getY(), 2) + 0.5);
+        return (int) (Math.sqrt(Math.pow(this.x - c.getX(), 2) + Math.pow(this.y - c.getY(), 2))+0.5);
     }
 
     @Override

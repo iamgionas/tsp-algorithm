@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TSMParser {
-    public static int nrElements = 0;
 
     public static List<City> Parse(File file) {
 
@@ -14,7 +13,6 @@ public class TSMParser {
 
             String str;
             Boolean skipInfo = false;
-            nrElements = 0;
 
             while ((str = br.readLine()) != null) {
 
@@ -24,7 +22,6 @@ public class TSMParser {
                             Double.parseDouble(citySplitted[1]),
                             Double.parseDouble(citySplitted[2]));
                     temp.add(city);
-                    nrElements++;
                 }
 
                 if (str.equals("NODE_COORD_SECTION")) {

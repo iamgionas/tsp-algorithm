@@ -1,9 +1,9 @@
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Main {
+
     public static void main(String[] args) throws Exception {
 
         // Loads the preferred file from the resources folder from the project
@@ -15,25 +15,24 @@ public class Main {
 
         // Reads the city info from the loaded file
         listCities = TSMParser.Parse(file);
-        int nrCities = TSMParser.nrElements;
+        int nrCities = listCities.size();
 
         // Matrix that contains the cities' distances, it is initialitzed to 0
-        Integer[][] distancesMatrix = new Integer[nrCities][nrCities];
-        for (Integer[] row : distancesMatrix)
-            Arrays.fill(row, 0);
+        int[][] distancesMatrix = new int[nrCities][nrCities];
+
 
         // Fills the matrix with the cities' distance
-        for (int x = 0; x < nrCities; x++) {
-            for (int y = x + 1; y < nrCities; y++) {
+        for(int x = 0; x < nrCities; x++){
+            for(int y = 0; y < nrCities; y++){
                 distancesMatrix[x][y] = listCities.get(x).getDistance(listCities.get(y));
             }
         }
 
-        printMatrix(distancesMatrix);
+        NearestNeighbor.compute(listCities, distancesMatrix);
     }
 
     // Static method that print any matrix to terminal
-    public static void printMatrix(Integer[][] matrix) {
+    public static void printMatrix(int[][] matrix) {
         for (int x = 0; x < matrix.length; x++) {
             for (int y = 0; y < matrix[x].length; y++) {
                 System.out.print(matrix[x][y] + "\t");
