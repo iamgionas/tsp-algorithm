@@ -2,7 +2,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TSMParser {
+public class TSPParser {
 
     public static List<City> Parse(File file) {
 

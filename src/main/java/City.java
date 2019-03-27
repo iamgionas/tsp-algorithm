@@ -3,10 +3,6 @@ public class City {
     private double x;
     private double y;
 
-    public City(){
-
-    }
-
     public City(int id, double x, double y) {
         this.id = id;
         this.x = x;
@@ -35,6 +31,10 @@ public class City {
 
     public int getDistance(City c) {
         return (int) (Math.sqrt(Math.pow(this.x - c.getX(), 2) + Math.pow(this.y - c.getY(), 2))+0.5);
+    }
+
+    public int getIndexMatrix(){
+        return this.id-1;
     }
 
     @Override

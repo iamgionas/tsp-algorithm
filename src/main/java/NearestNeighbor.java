@@ -4,12 +4,21 @@ import java.util.Map;
 
 public class NearestNeighbor {
 
-    public static void compute(List<City> cities, int[][] dMatrix) {
+    private City[] route;
+    private int[][] distancesMatrix;
+    private List<City> cities;
+
+    public NearestNeighbor(City[] route, int[][] distancesMatrix, List<City> cities){
+        this.route = route;
+        this.cities = cities;
+        this.distancesMatrix = distancesMatrix;
+    }
+
+    public City[] compute() {
         Map<Integer, City> visited = new LinkedHashMap<>();
 
         int startCityIndex = 0;
         int lastCityIndex = startCityIndex;
-        int sum = 0;
 
         visited.put(startCityIndex, cities.get(startCityIndex)); // Add first city to the path
 
@@ -18,21 +27,16 @@ public class NearestNeighbor {
             int minCityIndex = 0;
 
             for (int i = 0; i < cities.size(); i++) {
-                if(!visited.containsKey(i) && dMatrix[i][lastCityIndex] < minDistance){
-                    minDistance = dMatrix[i][lastCityIndex];
+                if(!visited.containsKey(i) && distancesMatrix[i][lastCityIndex] < minDistance){
+                    minDistance = distancesMatrix[i][lastCityIndex];
                     minCityIndex = i;
                 }
             }
 
-            sum += minDistance;
             lastCityIndex = minCityIndex;
             visited.put(lastCityIndex, cities.get(lastCityIndex));
         }
 
-        Object[] t = visited.values().toArray();
-        System.out.println(((City)t[1]).getId());
-
-        sum += dMatrix[lastCityIndex][startCityIndex];
-        System.out.println(sum);
+        return visited.values().toArray(route);
     }
 }
