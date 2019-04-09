@@ -14,25 +14,23 @@ public class Main {
 
         // Reads the city info from the loaded file
         listCities = TSPParser.Parse(file);
-        int nrCities = listCities.size();
 
-        // Matrix that contains the cities' distances, it is initialitzed to 0
-        int[][] distancesMatrix = new int[nrCities][nrCities];
+        //This is the main tour passed to the alorithms
+        City[] tour = new City[listCities.size()];
 
-        // Fills the matrix with the cities' distance
-        for(int x = 0; x < nrCities; x++){
-            for(int y = 0; y < nrCities; y++){
-                distancesMatrix[x][y] = listCities.get(x).getDistance(listCities.get(y));
-            }
-        }
+        TSPAlgorithm tsp = new TSPAlgorithm(listCities);
 
-        City[] route = new City[nrCities];
+        System.out.println("----------NearestNeighbor----------");
+        NearestNeighbor nn = new NearestNeighbor(tsp);
+        nn.compute(tour);
+        System.out.println("Lunghezza " + tsp.tourLength(tour));
+        System.out.println("Errore " + tsp.printError(tour, 6110));
 
-        route = new NearestNeighbor(route, distancesMatrix, listCities).compute();
-        calcPathDistance(route, distancesMatrix);
-        route = new TwoOpt(route, distancesMatrix).compute();
-        calcPathDistance(route, distancesMatrix);
-
+        System.out.println("----------TwoOpt----------");
+        TwoOpt to = new TwoOpt(tsp);
+        to.compute(tour);
+        System.out.println("Lunghezza " + tsp.tourLength(tour));
+        System.out.println("Errore " + tsp.printError(tour, 6110));
     }
 
     // Static method that print any matrix to terminal
@@ -44,15 +42,4 @@ public class Main {
             System.out.println();
         }
     }
-
-    public static void calcPathDistance(City[] path, int[][] matrix){
-        int length = 0;
-        for(int i = 0; i < path.length-1; i++){
-            length += matrix[path[i].getIndexMatrix()][path[i+1].getIndexMatrix()];
-        }
-        length += matrix[path[0].getIndexMatrix()][path[path.length-1].getIndexMatrix()];
-        System.out.println(length);
-    }
-
-
 }
