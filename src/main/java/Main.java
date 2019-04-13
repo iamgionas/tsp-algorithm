@@ -1,5 +1,5 @@
 import java.io.File;
-import java.util.List;
+import java.util.*;
 
 public class Main {
 
@@ -17,6 +17,7 @@ public class Main {
 
         //This is the main tour passed to the alorithms
         City[] tour = new City[listCities.size()];
+        Random n = new Random(24323424);
 
         TSPAlgorithm tsp = new TSPAlgorithm(listCities);
 
@@ -26,11 +27,26 @@ public class Main {
         System.out.println("Lunghezza " + tsp.tourLength(tour));
         System.out.println("Errore " + tsp.printError(tour, 6110));
 
-        System.out.println("----------TwoOpt----------");
+        /*System.out.println("----------TwoOpt----------");
         TwoOpt to = new TwoOpt(tsp);
         to.compute(tour);
         System.out.println("Lunghezza " + tsp.tourLength(tour));
+        System.out.println("Errore " + tsp.printError(tour, 6110));*/
+
+        System.out.println("----------SA----------");
+        tour = new SimulatedAnnealing(tsp,n).compute(tour);
+        System.out.println("Lunghezza " + tsp.tourLength(tour));
         System.out.println("Errore " + tsp.printError(tour, 6110));
+
+        Set<City> set = new HashSet<>();
+
+        // Iterate through the array
+        for (City t : tour) {
+            // Add each element into the set
+            set.add(t);
+        }
+
+        System.out.print(set.size());
     }
 
     // Static method that print any matrix to terminal

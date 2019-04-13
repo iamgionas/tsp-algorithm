@@ -1,53 +1,95 @@
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class SimulatedAnnealing {
+    TSPAlgorithm tsp;
+    Random rand;
 
-    private City[] route;
-    private int[][] distancesMatrix;
-    private List<City> cities;
-
-    public SimulatedAnnealing(City[] route, int[][] distancesMatrix, List<City> cities) {
-        this.route = route;
-        this.cities = cities;
-        this.distancesMatrix = distancesMatrix;
+    public SimulatedAnnealing(TSPAlgorithm tsp, Random rand) {
+        this.tsp = tsp;
+        this.rand = rand;
     }
 
-    /*public City[] compute(){
+    public City[] compute(City[] tour) {
         double t = 100;
         double a = 0.95;
 
-        City[] current = this.route;
+        City[] current = tour.clone();
         City[] best = current;
+        City[] candidate;
 
-        while(t >= 0.3){
-            for(int i = 0; i < 100; i++){
-                City[] next = doubleBridge(current);
-                City[] candidate = new TwoOpt(next, this.distancesMatrix).compute();
+        long startTime = System.nanoTime();
+        long elapsedTime = 0;
 
-                int currentDist = Main.calcPathDistance(current, this.distancesMatrix);
-                int candidateDist = Main.calcPathDistance(candidate, this.distancesMatrix);
+        while (elapsedTime < 178) {
+            for (int i = 0; i < 100; i++) {
+                candidate = doubleBridge(current);
+                new TwoOpt(this.tsp).compute(candidate);
 
-                if(candidateDist < currentDist){
+                int currentDist = this.tsp.tourLength(current);
+                int candidateDist = this.tsp.tourLength(candidate);
+
+                if (candidateDist < currentDist) {
                     current = candidate;
-                    int bestDist = Main.calcPathDistance(best, this.distancesMatrix);
+                    int bestDist = this.tsp.tourLength(best);
 
-                    if(currentDist < bestDist){
+                    if (currentDist < bestDist) {
                         best = current;
                     }
-                } else if (new Random().nextFloat() < Math.pow(Math.E, -((candidateDist-currentDist)/t))) {
+                } else if (this.rand.nextFloat() < Math.exp(( -((double)candidateDist - currentDist)) / t)) {
                     current = candidate;
                 }
             }
 
-            t = t*a;
+            elapsedTime = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - startTime);
+            t = t * a;
         }
 
-        return null;
-    }*/
+        return best;
+    }
 
-    private City[] doubleBridge(City[] route) {
+    private City[] doubleBridge(City[] tour) {
+        City[] candidate = new City[tour.length];
 
-        return null;
+        List<Integer> index = new ArrayList<>();
+
+        for (int i = 0; i < 4; i++) {
+            int temp;
+
+            do {
+                temp = rand.nextInt(tour.length);
+            } while (index.contains(temp) && index.contains(temp + 1) && temp != tour.length);
+
+            index.add(temp);
+            index.add(temp + 1);
+        }
+
+        Collections.sort(index);
+
+        int a = index.get(0);
+        int a1 = index.get(1);
+        int b = index.get(2);
+        int b1 = index.get(3);
+        int c = index.get(4);
+        int c1 = index.get(5);
+        int d = index.get(6);
+        int d1 = index.get(7);
+
+        int destPos = 0;
+        System.arraycopy(tour, 0, candidate, destPos, a1);
+
+        destPos += a1;
+        System.arraycopy(tour, c1, candidate, destPos, d-c1+1);
+
+        destPos += d-c1+1;
+        System.arraycopy(tour, b1, candidate, destPos, c-b1+1);
+
+        destPos += c-b1+1;
+        System.arraycopy(tour, a1, candidate, destPos, b-a1+1);
+
+        destPos += b-a1+1;
+        System.arraycopy(tour, d1, candidate, destPos, tour.length-d1);
+
+        return candidate;
     }
 }

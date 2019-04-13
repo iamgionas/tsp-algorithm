@@ -31,8 +31,10 @@ public class TwoOpt {
     }
 
     private int computeGain(int i, int j, City[] tour) {
-        int tempComp = tsp.distancesMatrix[tour[i].getIndexMatrix()][tour[i + 1].getIndexMatrix()] + tsp.distancesMatrix[tour[j].getIndexMatrix()][tour[(j + 1) % tour.length].getIndexMatrix()];
-        int tempSwap = tsp.distancesMatrix[tour[i].getIndexMatrix()][tour[j].getIndexMatrix()] + tsp.distancesMatrix[tour[i + 1].getIndexMatrix()][tour[(j + 1) % tour.length].getIndexMatrix()];
+        int tempComp = tsp.distancesMatrix[tour[i].getIndexMatrix()][tour[i + 1].getIndexMatrix()] +
+                        tsp.distancesMatrix[tour[j].getIndexMatrix()][tour[(j + 1) % tour.length].getIndexMatrix()];
+        int tempSwap = tsp.distancesMatrix[tour[i].getIndexMatrix()][tour[j].getIndexMatrix()] +
+                        tsp.distancesMatrix[tour[i + 1].getIndexMatrix()][tour[(j + 1) % tour.length].getIndexMatrix()];
         return tempSwap - tempComp;
     }
 
