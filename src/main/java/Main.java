@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         // Loads the preferred file from the resources folder from the project
-        String fileName = "ch130.tsp";
+        String fileName = "rat783.tsp";
         ClassLoader classLoader = new Main().getClass().getClassLoader();
         File file = new File(classLoader.getResource(fileName).getFile());
 
@@ -25,7 +25,7 @@ public class Main {
         NearestNeighbor nn = new NearestNeighbor(tsp);
         nn.compute(tour);
         System.out.println("Lunghezza " + tsp.tourLength(tour));
-        System.out.println("Errore " + tsp.printError(tour, 6110));
+        System.out.println("Errore " + tsp.printError(tour, 8806));
 
         /*System.out.println("----------TwoOpt----------");
         TwoOpt to = new TwoOpt(tsp);
@@ -36,7 +36,7 @@ public class Main {
         System.out.println("----------SA----------");
         tour = new SimulatedAnnealing(tsp,n).compute(tour);
         System.out.println("Lunghezza " + tsp.tourLength(tour));
-        System.out.println("Errore " + tsp.printError(tour, 6110));
+        System.out.println("Errore " + tsp.printError(tour, 8806));
 
         Set<City> set = new HashSet<>();
 
