@@ -4,6 +4,7 @@ public class TSPAlgorithm {
 
     protected List<City> cities;
     protected int[][] distancesMatrix;
+    protected long startTime;
 
     public TSPAlgorithm(List<City> cities) {
         this.cities = cities;
@@ -35,6 +36,10 @@ public class TSPAlgorithm {
 
     public double printError(City[] tour, int best) {
         return ((double)(tourLength(tour) - best) / best) * 100;
+    }
+
+    public void startTime(){
+        this.startTime = System.nanoTime();
     }
 
 }

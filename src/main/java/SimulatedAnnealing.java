@@ -18,7 +18,6 @@ public class SimulatedAnnealing {
         City[] best = current;
         City[] candidate;
 
-        long startTime = System.nanoTime();
         long elapsedTime = 0;
 
         while (elapsedTime < 178) {
@@ -41,7 +40,7 @@ public class SimulatedAnnealing {
                 }
             }
 
-            elapsedTime = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - startTime);
+            elapsedTime = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - tsp.startTime);
             t = t * a;
         }
 

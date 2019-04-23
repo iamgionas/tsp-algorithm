@@ -1,12 +1,13 @@
 import java.io.File;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
 
         // Loads the preferred file from the resources folder from the project
-        String fileName = "rat783.tsp";
+        String fileName = "u1060.tsp";
         ClassLoader classLoader = new Main().getClass().getClassLoader();
         File file = new File(classLoader.getResource(fileName).getFile());
 
@@ -15,38 +16,22 @@ public class Main {
         // Reads the city info from the loaded file
         listCities = TSPParser.Parse(file);
 
-        //This is the main tour passed to the alorithms
+        //This is the main tour passed to the algorithms
         City[] tour = new City[listCities.size()];
         Random n = new Random(24323424);
 
         TSPAlgorithm tsp = new TSPAlgorithm(listCities);
 
-        System.out.println("----------NearestNeighbor----------");
+        /************* NEAREST NEIGHBOR *************/
+        tsp.startTime();
         NearestNeighbor nn = new NearestNeighbor(tsp);
         nn.compute(tour);
-        System.out.println("Lunghezza " + tsp.tourLength(tour));
-        System.out.println("Errore " + tsp.printError(tour, 8806));
-
-        /*System.out.println("----------TwoOpt----------");
-        TwoOpt to = new TwoOpt(tsp);
-        to.compute(tour);
-        System.out.println("Lunghezza " + tsp.tourLength(tour));
-        System.out.println("Errore " + tsp.printError(tour, 6110));*/
 
         System.out.println("----------SA----------");
         tour = new SimulatedAnnealing(tsp,n).compute(tour);
+        System.out.println("Tempo " + TimeUnit.NANOSECONDS.toSeconds(tsp.startTime));
         System.out.println("Lunghezza " + tsp.tourLength(tour));
-        System.out.println("Errore " + tsp.printError(tour, 8806));
-
-        Set<City> set = new HashSet<>();
-
-        // Iterate through the array
-        for (City t : tour) {
-            // Add each element into the set
-            set.add(t);
-        }
-
-        System.out.print(set.size());
+        System.out.println("Errore " + tsp.printError(tour, 224094));
     }
 
     // Static method that print any matrix to terminal
