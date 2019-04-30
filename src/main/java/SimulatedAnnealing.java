@@ -20,7 +20,7 @@ public class SimulatedAnnealing {
 
         long elapsedTime = 0;
 
-        while (elapsedTime < 178) {
+        while (elapsedTime < 175) {
             for (int i = 0; i < 100; i++) {
                 candidate = doubleBridge(current);
                 new TwoOpt(this.tsp).compute(candidate);
@@ -43,6 +43,8 @@ public class SimulatedAnnealing {
             elapsedTime = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - tsp.startTime);
             t = t * a;
         }
+
+        System.out.println(elapsedTime);
 
         return best;
     }
